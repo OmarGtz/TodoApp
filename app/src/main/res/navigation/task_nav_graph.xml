@@ -6,6 +6,6 @@
 
     <fragment
         android:id="@+id/taskFragment"
-        android:name="com.example.todoapp.TaskFragment"
+        android:name="com.example.todoapp.presentation.TaskFragment"
         android:label="TaskFragment" />
 </navigation>
