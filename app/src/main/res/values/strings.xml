@@ -1,0 +1,4 @@
+<resources>
+    <string name="app_name">TodoApp</string>
+    <string name="empty_tasks_error">No tienes tareas agregadas</string>
+</resources>
