@@ -22,7 +22,6 @@ class TaskLocalDataSource(private val taskDao: TaskDao, val ioDispatcher: Corout
             }
         }
 
-
     override suspend fun saveTask(task: Task): TaskResult<Task> = withContext(ioDispatcher) {
         taskDao.saveTask(task)
         return@withContext TaskResult.Success(task)
