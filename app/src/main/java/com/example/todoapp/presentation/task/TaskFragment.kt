@@ -1,4 +1,4 @@
-package com.example.todoapp.presentation
+package com.example.todoapp.presentation.task
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -10,7 +10,8 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.RecyclerView
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.example.todoapp.R
-import com.example.todoapp.presentation.viewmodel.TaskViewModel
+import com.example.todoapp.TaskApp
+import com.example.todoapp.presentation.ViewModelFactory
 
 class TaskFragment : Fragment() {
 
@@ -19,6 +20,7 @@ class TaskFragment : Fragment() {
     private lateinit var root: View
     private lateinit var mSwipeRefreshLayout: SwipeRefreshLayout
     private lateinit var viewModel: TaskViewModel
+    private lateinit var adapter: TaskAdapter
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -29,13 +31,36 @@ class TaskFragment : Fragment() {
         taskList = root.findViewById(R.id.tasks_list)
         emptyView = root.findViewById(R.id.no_tasks_layout)
         mSwipeRefreshLayout = root.findViewById(R.id.refresh_layout)
-        viewModel = ViewModelProvider(this).get(TaskViewModel::class.java)
+        mSwipeRefreshLayout.setOnRefreshListener {
+            viewModel.loadTasks(true)
+            mSwipeRefreshLayout.isRefreshing = false
+        }
+        initList()
+        val repository = (requireActivity().applicationContext as TaskApp).taskRepository
+        viewModel = ViewModelProvider(this, ViewModelFactory(repository)).get(TaskViewModel::class.java)
         return root
+    }
+
+    private fun initList() {
+        adapter = TaskAdapter()
+        taskList.adapter = adapter
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        subscribeTasksList()
+        subscribeEmptyListError()
     }
 
     private fun subscribeTasksList() {
         viewModel.items.observe(viewLifecycleOwner) {
-            //TODO update list
+            adapter.submitList(it)
+        }
+    }
+
+    private fun subscribeEmptyListError() {
+        viewModel.emptyListError.observe(viewLifecycleOwner) {
+            emptyView.visibility = View.VISIBLE
         }
     }
 

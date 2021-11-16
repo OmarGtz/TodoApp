@@ -1,11 +1,12 @@
-package com.example.todoapp.presentation.viewmodel
+package com.example.todoapp.presentation.task
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.todoapp.data.Task
-import com.example.todoapp.data.TaskRepository
+import com.example.todoapp.data.error.EmptyTasksError
+import com.example.todoapp.data.room.Task
+import com.example.todoapp.data.repository.TaskRepository
 import com.example.todoapp.data.TaskResult
 import kotlinx.coroutines.launch
 
@@ -14,27 +15,32 @@ import kotlinx.coroutines.launch
  *
  * @author (c) 2021, UVI TECH SAPI De CV, KAVAK
  */
-class TaskViewModel(val taskRepository: TaskRepository): ViewModel() {
+class TaskViewModel(private val taskRepository: TaskRepository): ViewModel() {
 
     private val _items: MutableLiveData<List<Task>> = MutableLiveData()
 
     val items: LiveData<List<Task>>
     get() = _items
 
-    private val _error: MutableLiveData<Throwable> = MutableLiveData()
-    val error: LiveData<Throwable>
-        get() = _error
+    private val _emptyListError: MutableLiveData<Unit> = MutableLiveData()
+    val emptyListError: LiveData<Unit>
+        get() = _emptyListError
 
+    init {
+        loadTasks(forceUpdate = false)
+    }
 
-    private fun loadTasks(forceUpdate: Boolean) {
+    fun loadTasks(forceUpdate: Boolean) {
         viewModelScope.launch {
             val tasksResult = taskRepository.getTasks(forceUpdate)
             when (tasksResult) {
                 is  TaskResult.Success -> {
-                    _items.value = tasksResult.data!!
+                    _items.value = tasksResult.data
                 }
                 is TaskResult.Error -> {
-                    _error.value = tasksResult.exception
+                    if (tasksResult.exception is EmptyTasksError) {
+                        _emptyListError.value = Unit
+                    }
                 }
                 is TaskResult.Loading -> {
 

@@ -1,5 +1,8 @@
-package com.example.todoapp.data
+package com.example.todoapp.data.datasource.remote
 
+import com.example.todoapp.data.room.Task
+import com.example.todoapp.data.datasource.TaskDataSource
+import com.example.todoapp.data.TaskResult
 import kotlinx.coroutines.delay
 
 /**
@@ -7,7 +10,7 @@ import kotlinx.coroutines.delay
  *
  * @author (c) 2021, UVI TECH SAPI De CV, KAVAK
  */
-class TaskRemoteDataSource(): TaskDataSource {
+object TaskRemoteDataSource: TaskDataSource {
 
     private var TASK_SERVICE_DATA: LinkedHashMap<String, Task> = java.util.LinkedHashMap()
 
@@ -17,7 +20,6 @@ class TaskRemoteDataSource(): TaskDataSource {
             Task("Mandar MR", "Enviar MR para review", false),
             Task("Resolver bugs", "Enviar bugs encontrados", false)
         )
-
         for (task in tasks) {
             TASK_SERVICE_DATA[task.id] = task
         }
@@ -28,8 +30,8 @@ class TaskRemoteDataSource(): TaskDataSource {
         return TaskResult.Success(TASK_SERVICE_DATA.values.toList())
     }
 
-    override suspend fun saveTask(task: Task): TaskResult<Task> {
-        TODO("Not yet implemented")
+    override suspend fun saveTask(task: Task) {
+        TASK_SERVICE_DATA[task.id] = task
     }
 
     override suspend fun deleteTasks() {

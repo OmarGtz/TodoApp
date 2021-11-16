@@ -1,4 +1,7 @@
-package com.example.todoapp.data
+package com.example.todoapp.data.datasource
+
+import com.example.todoapp.data.room.Task
+import com.example.todoapp.data.TaskResult
 
 /**
  * TaskDataSource
@@ -7,6 +10,6 @@ package com.example.todoapp.data
  */
 interface TaskDataSource {
     suspend fun getTasks(): TaskResult<List<Task>>
-    suspend fun saveTask(task: Task): TaskResult<Task>
+    suspend fun saveTask(task: Task)
     suspend fun deleteTasks()
 }

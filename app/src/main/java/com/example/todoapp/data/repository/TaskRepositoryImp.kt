@@ -1,11 +1,18 @@
-package com.example.todoapp.data
+package com.example.todoapp.data.repository
+
+import com.example.todoapp.data.room.Task
+import com.example.todoapp.data.datasource.TaskDataSource
+import com.example.todoapp.data.TaskResult
+import kotlinx.coroutines.coroutineScope
+import kotlinx.coroutines.launch
 
 /**
  * TaskRepositoryImp
  *
  * @author (c) 2021, UVI TECH SAPI De CV, KAVAK
  */
-class TaskRepositoryImp(private val taskRemoteDataSource: TaskDataSource, private val taskLocalDataSource: TaskDataSource): TaskRepository {
+class TaskRepositoryImp(private val taskRemoteDataSource: TaskDataSource, private val taskLocalDataSource: TaskDataSource):
+    TaskRepository {
 
     override suspend fun getTasks(forceUpdate: Boolean): TaskResult<List<Task>> {
         if (forceUpdate) {
@@ -16,6 +23,13 @@ class TaskRepositoryImp(private val taskRemoteDataSource: TaskDataSource, privat
             }
         }
         return taskLocalDataSource.getTasks()
+    }
+
+    override suspend fun saveTask(task: Task) {
+        coroutineScope {
+            launch { taskRemoteDataSource.saveTask(task) }
+            launch { taskLocalDataSource.saveTask(task) }
+        }
     }
 
     private suspend fun updateTasksFromRemoteDataSource() {
