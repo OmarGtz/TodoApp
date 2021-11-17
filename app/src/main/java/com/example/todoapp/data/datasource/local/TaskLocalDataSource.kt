@@ -3,6 +3,7 @@ package com.example.todoapp.data.datasource.local
 import com.example.todoapp.data.*
 import com.example.todoapp.data.datasource.TaskDataSource
 import com.example.todoapp.data.error.EmptyTasksError
+import com.example.todoapp.data.error.NotDataFoundError
 import com.example.todoapp.data.room.Task
 import com.example.todoapp.data.room.TaskDao
 import kotlinx.coroutines.CoroutineDispatcher
@@ -37,5 +38,19 @@ class TaskLocalDataSource(private val taskDao: TaskDao, val ioDispatcher: Corout
 
     override suspend fun deleteTasks() = withContext(ioDispatcher) {
         taskDao.deleteAllTasks()
+    }
+
+    override suspend fun getTask(id: String): TaskResult<Task> = withContext(ioDispatcher) {
+        return@withContext try {
+            TaskResult.Loading
+            val task = taskDao.getTask(id)
+            if (task != null) {
+                TaskResult.Success(task)
+            } else {
+                TaskResult.Error(NotDataFoundError())
+            }
+        } catch (e: Exception) {
+            TaskResult.Error(e)
+        }
     }
 }

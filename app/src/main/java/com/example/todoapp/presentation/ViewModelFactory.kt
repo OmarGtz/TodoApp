@@ -3,6 +3,7 @@ package com.example.todoapp.presentation
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import com.example.todoapp.data.repository.TaskRepository
+import com.example.todoapp.presentation.addTaks.AddTaskVieModel
 import com.example.todoapp.presentation.task.TaskViewModel
 
 /**
@@ -20,6 +21,7 @@ class ViewModelFactory(private val taskRepository: TaskRepository): ViewModelPro
     override fun <T : ViewModel> create(modelClass: Class<T>): T {
         return when {
             modelClass.isAssignableFrom(TaskViewModel::class.java) -> TaskViewModel(taskRepository)
+            modelClass.isAssignableFrom(AddTaskVieModel::class.java) -> AddTaskVieModel(taskRepository)
             else -> throw IllegalArgumentException("Unknown viewmodel")
         } as T
     }

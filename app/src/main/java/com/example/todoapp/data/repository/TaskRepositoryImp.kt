@@ -32,6 +32,10 @@ class TaskRepositoryImp(private val taskRemoteDataSource: TaskDataSource, privat
         }
     }
 
+    override suspend fun getTask(id: String): TaskResult<Task> {
+        return taskLocalDataSource.getTask(id)
+    }
+
     private suspend fun updateTasksFromRemoteDataSource() {
         val remoteTasks = taskRemoteDataSource.getTasks()
         if (remoteTasks is TaskResult.Success) {

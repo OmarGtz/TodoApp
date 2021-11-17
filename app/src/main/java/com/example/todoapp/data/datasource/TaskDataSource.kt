@@ -12,4 +12,5 @@ interface TaskDataSource {
     suspend fun getTasks(): TaskResult<List<Task>>
     suspend fun saveTask(task: Task)
     suspend fun deleteTasks()
+    suspend fun getTask(id: String): TaskResult<Task>
 }

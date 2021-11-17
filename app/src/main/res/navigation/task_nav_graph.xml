@@ -1,11 +1,27 @@
 <?xml version="1.0" encoding="utf-8"?>
 <navigation xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/task_nav_graph"
     app:startDestination="@id/taskFragment">
-
     <fragment
         android:id="@+id/taskFragment"
         android:name="com.example.todoapp.presentation.task.TaskFragment"
-        android:label="TaskFragment" />
+        android:label="TaskFragment"
+        tools:layout="@layout/fragment_task">
+        <action
+            android:id="@+id/action_taskFragment_to_addTaskFragment"
+            app:destination="@id/addTaskFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/addTaskFragment"
+        android:name="com.example.todoapp.presentation.addTaks.AddTaskFragment"
+        android:label="AddTaskFragment"
+        tools:layout="@layout/fragment_add_task">
+        <action
+            android:id="@+id/action_addTaskFragment_to_taskFragment"
+            app:destination="@id/taskFragment" />
+    </fragment>
+
+
 </navigation>

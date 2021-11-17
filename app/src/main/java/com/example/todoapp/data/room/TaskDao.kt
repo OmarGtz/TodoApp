@@ -15,9 +15,14 @@ interface TaskDao {
     @Query("select * from Tasks")
     suspend fun getTasks(): List<Task>
 
+    @Query("select * from tasks where entryid = :taskId")
+    suspend fun getTask(taskId: String): Task
+
     @Insert
     suspend fun saveTask(task: Task)
 
     @Query("delete from Tasks")
     suspend fun deleteAllTasks()
+
+
 }

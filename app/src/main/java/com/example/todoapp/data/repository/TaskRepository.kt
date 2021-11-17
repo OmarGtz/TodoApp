@@ -11,4 +11,5 @@ import com.example.todoapp.data.TaskResult
 interface TaskRepository {
     suspend fun getTasks(forceUpdate: Boolean): TaskResult<List<Task>>
     suspend fun saveTask(task: Task)
+    suspend fun getTask(id: String): TaskResult<Task>
 }

@@ -1,5 +1,6 @@
 package com.example.todoapp.presentation.task
 
+import android.service.autofill.OnClickAction
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -16,7 +17,7 @@ import com.example.todoapp.data.room.Task
  *
  * @author (c) 2021, UVI TECH SAPI De CV, KAVAK
  */
-class TaskAdapter: ListAdapter<Task,TaskAdapter.TaskViewHolder>(DIFF_ITEM) {
+class TaskAdapter(private val action: () -> Unit): ListAdapter<Task,TaskAdapter.TaskViewHolder>(DIFF_ITEM) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): TaskViewHolder {
         return TaskViewHolder.provide(parent)
@@ -24,7 +25,7 @@ class TaskAdapter: ListAdapter<Task,TaskAdapter.TaskViewHolder>(DIFF_ITEM) {
 
     override fun onBindViewHolder(holder: TaskViewHolder, position: Int) {
         val item: Task = getItem(position)
-        holder.bind(item)
+        holder.bind(item, onClickAction = action)
     }
 
     class TaskViewHolder(view: View): RecyclerView.ViewHolder(view) {
@@ -32,9 +33,12 @@ class TaskAdapter: ListAdapter<Task,TaskAdapter.TaskViewHolder>(DIFF_ITEM) {
         private val title: TextView = itemView.findViewById(R.id.title_text)
         private val checkComplete: CheckBox = itemView.findViewById(R.id.complete_checkbox)
 
-        fun bind(task: Task) {
+        fun bind(task: Task, onClickAction: () -> Unit) {
             title.text = task.title
             checkComplete.isChecked = task.completed
+            itemView.setOnClickListener {
+                onClickAction.invoke()
+            }
         }
 
         companion object {

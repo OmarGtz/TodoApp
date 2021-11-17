@@ -26,7 +26,6 @@ object TaskRemoteDataSource: TaskDataSource {
     }
 
     override suspend fun getTasks(): TaskResult<List<Task>> {
-        delay(2000)
         return TaskResult.Success(TASK_SERVICE_DATA.values.toList())
     }
 
@@ -35,6 +34,10 @@ object TaskRemoteDataSource: TaskDataSource {
     }
 
     override suspend fun deleteTasks() {
+        TODO("Not yet implemented")
+    }
+
+    override suspend fun getTask(id: String): TaskResult<Task> {
         TODO("Not yet implemented")
     }
 }
