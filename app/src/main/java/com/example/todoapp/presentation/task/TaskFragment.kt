@@ -5,6 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.LinearLayout
+import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
@@ -14,6 +15,7 @@ import com.example.todoapp.R
 import com.example.todoapp.TaskApp
 import com.example.todoapp.myFunction
 import com.example.todoapp.presentation.ViewModelFactory
+import com.example.todoapp.presentation.taskDetail.TaskDetailFragmentDirections
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 
 class TaskFragment : Fragment() {
@@ -47,8 +49,11 @@ class TaskFragment : Fragment() {
     }
 
     private fun initList() {
-        adapter = TaskAdapter {
-            //TODO navigate to task detail
+        adapter = TaskAdapter({ id, completed ->
+            viewModel.completedTask(id, completed)
+        }) {
+            val action = TaskFragmentDirections.actionTaskToTaskDetail(it)
+            findNavController().navigate(action)
         }
         taskList.adapter = adapter
     }
@@ -56,7 +61,11 @@ class TaskFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         addFabButton.setOnClickListener {
-            findNavController().navigate(R.id.action_taskFragment_to_addTaskFragment)
+            val action = TaskFragmentDirections.actionTaskFragmentToAddTaskFragment(
+                "",
+                getString(R.string.add_task_title)
+            )
+            findNavController().navigate(action)
         }
         subscribeTasksList()
         subscribeEmptyListError()

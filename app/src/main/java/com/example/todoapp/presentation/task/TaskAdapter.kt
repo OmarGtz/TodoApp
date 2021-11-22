@@ -17,7 +17,10 @@ import com.example.todoapp.data.room.Task
  *
  * @author (c) 2021, UVI TECH SAPI De CV, KAVAK
  */
-class TaskAdapter(private val action: () -> Unit): ListAdapter<Task,TaskAdapter.TaskViewHolder>(DIFF_ITEM) {
+class TaskAdapter(
+    private val completeTask: (String, Boolean) -> Unit,
+    private val action: (taskId :String) -> Unit
+): ListAdapter<Task,TaskAdapter.TaskViewHolder>(DIFF_ITEM) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): TaskViewHolder {
         return TaskViewHolder.provide(parent)
@@ -25,7 +28,7 @@ class TaskAdapter(private val action: () -> Unit): ListAdapter<Task,TaskAdapter.
 
     override fun onBindViewHolder(holder: TaskViewHolder, position: Int) {
         val item: Task = getItem(position)
-        holder.bind(item, onClickAction = action)
+        holder.bind(item, onClickAction = action, completeTask)
     }
 
     class TaskViewHolder(view: View): RecyclerView.ViewHolder(view) {
@@ -33,11 +36,14 @@ class TaskAdapter(private val action: () -> Unit): ListAdapter<Task,TaskAdapter.
         private val title: TextView = itemView.findViewById(R.id.title_text)
         private val checkComplete: CheckBox = itemView.findViewById(R.id.complete_checkbox)
 
-        fun bind(task: Task, onClickAction: () -> Unit) {
+        fun bind(task: Task, onClickAction: (taskId: String) -> Unit, completeTask: (String, Boolean) -> Unit) {
             title.text = task.title
             checkComplete.isChecked = task.completed
+            checkComplete.setOnClickListener {
+                completeTask(task.id, checkComplete.isChecked)
+            }
             itemView.setOnClickListener {
-                onClickAction.invoke()
+                onClickAction(task.id)
             }
         }
 

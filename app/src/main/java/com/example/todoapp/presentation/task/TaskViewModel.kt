@@ -22,6 +22,12 @@ class TaskViewModel(private val taskRepository: TaskRepository): ViewModel() {
     val items: LiveData<List<Task>>
     get() = _items
 
+    private val _completedTask: MutableLiveData<Boolean> = MutableLiveData()
+    val completedTask: LiveData<Boolean>
+        get() = _completedTask
+
+
+
     private val _emptyListError: MutableLiveData<Unit> = MutableLiveData()
     val emptyListError: LiveData<Unit>
         get() = _emptyListError
@@ -30,12 +36,19 @@ class TaskViewModel(private val taskRepository: TaskRepository): ViewModel() {
         loadTasks(forceUpdate = false)
     }
 
+    fun completedTask(taskId: String, completed: Boolean) {
+        viewModelScope.launch {
+            taskRepository.completedTask(taskId, completed)
+            _completedTask.value = true
+        }
+    }
+
     fun loadTasks(forceUpdate: Boolean) {
         viewModelScope.launch {
             val tasksResult = taskRepository.getTasks(forceUpdate)
             when (tasksResult) {
                 is  TaskResult.Success -> {
-                    _items.value = tasksResult.data
+                    _items.value = tasksResult.data!!
                 }
                 is TaskResult.Error -> {
                     if (tasksResult.exception is EmptyTasksError) {

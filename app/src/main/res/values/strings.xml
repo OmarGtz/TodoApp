@@ -3,4 +3,8 @@
     <string name="empty_tasks_error">No tienes tareas agregadas</string>
     <string name="not_data_found_error">No se encontro lo informacion</string>
     <string name="unknown_error">Error desconocido</string>
+    <string name="task_error">No fue posible cargar la informacion</string>
+    <string name="edit_task_title">Editar tarea</string>
+    <string name="add_task_title">Agregar tarea</string>
+    <string name="no_data">no data</string>
 </resources>

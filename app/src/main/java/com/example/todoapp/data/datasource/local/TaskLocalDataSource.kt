@@ -42,7 +42,6 @@ class TaskLocalDataSource(private val taskDao: TaskDao, val ioDispatcher: Corout
 
     override suspend fun getTask(id: String): TaskResult<Task> = withContext(ioDispatcher) {
         return@withContext try {
-            TaskResult.Loading
             val task = taskDao.getTask(id)
             if (task != null) {
                 TaskResult.Success(task)
@@ -52,5 +51,30 @@ class TaskLocalDataSource(private val taskDao: TaskDao, val ioDispatcher: Corout
         } catch (e: Exception) {
             TaskResult.Error(e)
         }
+    }
+
+    override suspend fun updateTask(task: Task): TaskResult<Boolean> = withContext(ioDispatcher) {
+        return@withContext try {
+            val updated = taskDao.updateTask(task)
+            if (updated >= 1) {
+                TaskResult.Success(true)
+            } else {
+                TaskResult.Success(false)
+            }
+        } catch (e: Exception) {
+            TaskResult.Error(e)
+        }
+    }
+    override suspend fun completedTask(taskId: String, completed: Boolean) = withContext(ioDispatcher) {
+        taskDao.updateCompleted(taskId, completed)
+    }
+
+    override suspend fun deleteCompleteTasks(): TaskResult<Int> = withContext(ioDispatcher) {
+        val taskUpdated = taskDao.deleteCompletedTaskS()
+        return@withContext TaskResult.Success(taskUpdated)
+    }
+
+    override suspend fun deleteTask(taskId: String) = withContext(ioDispatcher) {
+        taskDao.deleteTask(taskId)
     }
 }

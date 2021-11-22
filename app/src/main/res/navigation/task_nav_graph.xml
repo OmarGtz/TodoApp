@@ -12,16 +12,40 @@
         <action
             android:id="@+id/action_taskFragment_to_addTaskFragment"
             app:destination="@id/addTaskFragment" />
+        <action
+            android:id="@+id/action_task_to_taskDetail"
+            app:destination="@id/taskDetailFragment"/>
     </fragment>
     <fragment
         android:id="@+id/addTaskFragment"
         android:name="com.example.todoapp.presentation.addTaks.AddTaskFragment"
-        android:label="AddTaskFragment"
+        android:label="{title}"
         tools:layout="@layout/fragment_add_task">
+        <argument
+            android:name="taskId"
+            app:argType="string"
+            android:defaultValue=""/>
+        <argument
+            android:name="title"
+            app:argType="string"
+            android:defaultValue="" />
         <action
             android:id="@+id/action_addTaskFragment_to_taskFragment"
             app:destination="@id/taskFragment" />
     </fragment>
+    <fragment
+        android:id="@+id/taskDetailFragment"
+        android:name="com.example.todoapp.presentation.taskDetail.TaskDetailFragment"
+        android:label="TaskDetailFragment"
+        tools:layout="@layout/fragment_task_detail">
+        <argument
+            android:name="taskId"
+            app:argType="string"
+            android:defaultValue="" />
 
+        <action
+            android:id="@+id/action_taskDetailFragment_to_addTaskFragment"
+            app:destination="@id/addTaskFragment" />
+    </fragment>
 
 </navigation>

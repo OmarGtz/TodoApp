@@ -1,8 +1,6 @@
 package com.example.todoapp.data.room
 
-import androidx.room.Dao
-import androidx.room.Insert
-import androidx.room.Query
+import androidx.room.*
 
 /**
  * TaskDao
@@ -18,11 +16,23 @@ interface TaskDao {
     @Query("select * from tasks where entryid = :taskId")
     suspend fun getTask(taskId: String): Task
 
-    @Insert
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun saveTask(task: Task)
 
     @Query("delete from Tasks")
     suspend fun deleteAllTasks()
+
+    @Update
+    suspend fun updateTask(task: Task): Int
+
+    @Query("UPDATE TASKS SET completed = :completed WHERE entryid = :taskId")
+    suspend fun updateCompleted(taskId: String, completed: Boolean)
+
+    @Query("DELETE FROM TASKS WHERE entryid = :taskId")
+    suspend fun deleteTask(taskId: String)
+
+    @Query("DELETE FROM TASKS WHERE completed = 1")
+    suspend fun deleteCompletedTaskS(): Int
 
 
 }

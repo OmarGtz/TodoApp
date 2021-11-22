@@ -36,6 +36,27 @@ class TaskRepositoryImp(private val taskRemoteDataSource: TaskDataSource, privat
         return taskLocalDataSource.getTask(id)
     }
 
+    override suspend fun completedTask(tasId: String, completed: Boolean) {
+        coroutineScope {
+            launch { taskRemoteDataSource.completedTask(tasId, completed) }
+            launch { taskLocalDataSource.completedTask(tasId, completed) }
+        }
+    }
+
+    override suspend fun clearCompleteTask() {
+        coroutineScope {
+            launch { taskRemoteDataSource.deleteCompleteTasks() }
+            launch { taskLocalDataSource.deleteCompleteTasks() }
+        }
+    }
+
+    override suspend fun deleteTask(tasId: String) {
+        coroutineScope {
+            launch { taskRemoteDataSource.deleteTask(tasId) }
+            launch { taskLocalDataSource.deleteTask(tasId) }
+        }
+    }
+
     private suspend fun updateTasksFromRemoteDataSource() {
         val remoteTasks = taskRemoteDataSource.getTasks()
         if (remoteTasks is TaskResult.Success) {

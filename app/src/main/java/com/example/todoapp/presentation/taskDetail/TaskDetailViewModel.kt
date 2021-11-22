@@ -32,11 +32,18 @@ class TaskDetailViewModel(private val taskRepository: TaskRepository): ViewModel
     val dataLoading: LiveData<Boolean>
         get() = _dataLoading
 
+    fun onStart(taskId: String) {
+        if (taskId.isNotEmpty()) {
+            getTaskDetail(taskId)
+        } else {
+            _taskError.value = R.string.task_error
+        }
+    }
 
-    fun getTaskDetail(id: String) {
+    private fun getTaskDetail(id: String) {
         viewModelScope.launch {
-            val result = taskRepository.getTask(id)
-            when (result) {
+            _dataLoading.value = true
+            when (val result = taskRepository.getTask(id)) {
                 is TaskResult.Success -> {
                     _dataLoading.value = false
                     _taskDetail.value = result.data!!
@@ -48,9 +55,6 @@ class TaskDetailViewModel(private val taskRepository: TaskRepository): ViewModel
                     } else {
                         _taskError.value = R.string.not_data_found_error
                     }
-                }
-                is TaskResult.Loading -> {
-                    _dataLoading.value = true
                 }
             }
         }

@@ -34,10 +34,35 @@ object TaskRemoteDataSource: TaskDataSource {
     }
 
     override suspend fun deleteTasks() {
-        TODO("Not yet implemented")
+        TASK_SERVICE_DATA.clear()
     }
 
     override suspend fun getTask(id: String): TaskResult<Task> {
-        TODO("Not yet implemented")
+        return TaskResult.Success(TASK_SERVICE_DATA[id] ?: Task())
     }
+
+    override suspend fun updateTask(task: Task): TaskResult<Boolean> {
+        TASK_SERVICE_DATA[task.id] = task
+        return TaskResult.Success(true)
+    }
+
+    override suspend fun completedTask(taskId: String, completed: Boolean) {
+        TASK_SERVICE_DATA[taskId]?.completed = completed
+    }
+
+    override suspend fun deleteCompleteTasks(): TaskResult<Int> {
+        var deletedItems = 0
+        for (task in TASK_SERVICE_DATA) {
+            if (task.value.completed) {
+                TASK_SERVICE_DATA.remove(task.key)
+                deletedItems++
+            }
+        }
+        return TaskResult.Success(deletedItems)
+    }
+
+    override suspend fun deleteTask(taskId: String) {
+        TASK_SERVICE_DATA.remove(taskId)
+    }
+
 }

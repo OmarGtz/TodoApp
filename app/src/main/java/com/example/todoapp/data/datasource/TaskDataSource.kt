@@ -13,4 +13,8 @@ interface TaskDataSource {
     suspend fun saveTask(task: Task)
     suspend fun deleteTasks()
     suspend fun getTask(id: String): TaskResult<Task>
+    suspend fun updateTask(task: Task): TaskResult<Boolean>
+    suspend fun completedTask(taskId: String, completed: Boolean)
+    suspend fun deleteCompleteTasks(): TaskResult<Int>
+    suspend fun deleteTask(taskId: String)
 }
