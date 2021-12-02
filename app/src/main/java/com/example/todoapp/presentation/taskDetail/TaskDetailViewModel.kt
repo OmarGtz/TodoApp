@@ -1,22 +1,22 @@
 package com.example.todoapp.presentation.taskDetail
 
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewModelScope
+import androidx.lifecycle.*
 import com.example.todoapp.R
 import com.example.todoapp.data.TaskResult
 import com.example.todoapp.data.error.NotDataFoundError
 import com.example.todoapp.data.repository.TaskRepository
 import com.example.todoapp.data.room.Task
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
 /**
  * TaskDetailViewModel
  *
  * @author (c) 2021, UVI TECH SAPI De CV, KAVAK
  */
-class TaskDetailViewModel(private val taskRepository: TaskRepository): ViewModel() {
+@HiltViewModel
+class TaskDetailViewModel @Inject constructor(private val taskRepository: TaskRepository): ViewModel() {
 
     private val _taskDetail: MutableLiveData<Task> = MutableLiveData()
     val taskDetail: LiveData<Task>
@@ -27,6 +27,9 @@ class TaskDetailViewModel(private val taskRepository: TaskRepository): ViewModel
         get() = _taskError
 
     private val _notDataFound: MutableLiveData<Unit> = MutableLiveData()
+
+
+    val isDataAvailable: LiveData<Boolean> = _taskDetail.map { task -> task != null }
 
     private val _dataLoading: MutableLiveData<Boolean> = MutableLiveData()
     val dataLoading: LiveData<Boolean>

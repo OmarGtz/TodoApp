@@ -1,18 +1,52 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
     <!-- Base application theme. -->
     <style name="Theme.TodoApp" parent="Theme.MaterialComponents.DayNight.NoActionBar">
+        
+        
+        <!-- Components -->
+        <item name="materialButtonStyle">@style/Widget.TodoApp.button</item>
+        <item name="materialButtonOutlinedStyle">@style/Widget.TodoApp.button.Outlined</item>
+
+
+        <!-- Type system -->
+        <item name="textAppearanceButton">@style/TextAppearance.TodoApp.Button</item>
+        <item name="textAppearanceHeadline6">@style/TextAppearance.TodoApp.Headline6</item>
+        <item name="textAppearanceBody1">@style/TextAppearance.TodoApp.Body1</item>
+
+        <!-- Shape System -->
+        <item name="shapeAppearanceSmallComponent">@style/ShapeAppearance.TodoApp.SmallComponents</item>
+        <item name="shapeAppearanceMediumComponent">@style/ShapeAppearance.TodoApp.MediumComponents</item>
+        <item name="shapeAppearanceLargeComponent">@style/ShapeAppearance.TodoApp.LargeComponents</item>
+
         <!-- Primary brand color. -->
-        <item name="colorPrimary">@color/purple_500</item>
-        <item name="colorPrimaryVariant">@color/purple_700</item>
-        <item name="colorOnPrimary">@color/white</item>
+        <item name="colorPrimary">@color/todo_green_2E7D32</item>
+        <item name="colorOnPrimary">@color/todo_white_fff</item>
         <!-- Secondary brand color. -->
-        <item name="colorSecondary">@color/teal_200</item>
-        <item name="colorSecondaryVariant">@color/teal_700</item>
-        <item name="colorOnSecondary">@color/black</item>
+        <item name="colorSecondary">@color/todo_white_fff</item>
+        <item name="colorOnSecondary">@color/todo_green_2E7D32</item>
+
+        <item name="android:colorBackground">@color/todo_gray_FBFBFB</item>
+        <item name="colorOnBackground">@color/todo_black_000</item>
+        <item name="colorSurface">@color/todo_white_fff</item>
+        <item name="colorOnSurface">@color/todo_black_000</item>
+        <item name="android:textColorPrimary">@color/todo_black_000</item>
+        <item name="android:textColorSecondary">@color/todo_black_70</item>
+        <item name="android:textColorTertiary">@color/todo_black_40</item>
+        <item name="colorWarning">@color/todo_yellow</item>
+
         <!-- Status bar color. -->
-        <item name="android:statusBarColor" tools:targetApi="l">?attr/colorPrimaryVariant</item>
+        <item name="android:statusBarColor" tools:targetApi="l">@color/todo_green_2E7D32</item>
+        <item name="android:windowLightNavigationBar" tools:targetApi="o_mr1">true</item>
+        <item name="android:navigationBarColor">@color/todo_white_fff</item>
         <!-- Customize your theme here. -->
     </style>
 
+    <style name="ThemeOverlay.TodoApp.Green" parent="">
+        <item name="android:colorBackground">@color/todo_green_2E7D32</item>
+        <item name="colorOnBackground">@color/todo_white_fff</item>
+        <item name="colorPrimary">@color/todo_white_fff</item>
+        <item name="colorOnPrimary">@color/todo_green_2E7D32</item>
+        <item name="colorWarning">#FF5722</item>
+    </style>
     <style name="Toolbar" parent="ThemeOverlay.AppCompat.Light" />
 </resources>

@@ -1,66 +1,94 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
 
-    <CheckBox
-        android:id="@+id/checkbox_completed"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintVertical_bias="0"
-        android:layout_marginStart="@dimen/grid_2"
-        app:layout_constraintBottom_toBottomOf="@id/title_text"
-        app:layout_constraintTop_toTopOf="@id/title_text"/>
+    <data>
+        <import type="android.view.View"/>
+        <variable
+            name="viewModel"
+            type="com.example.todoapp.presentation.taskDetail.TaskDetailViewModel" />
+    </data>
 
-    <TextView
-        android:id="@+id/title_text"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_margin="@dimen/grid_2"
-        android:textAppearance="?textAppearanceHeadline4"
-        android:textColor="?android:textColorPrimary"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/checkbox_completed"
-        app:layout_constraintTop_toTopOf="parent"
-        tools:text="Titulo"/>
-
-    <TextView
-        android:id="@+id/desc_text"
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:textAppearance="?textAppearanceSubtitle1"
-        android:textColor="?android:textColorSecondary"
-        android:layout_margin="@dimen/grid_2"
-        app:layout_constraintTop_toBottomOf="@+id/title_text"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        tools:text="Desctiption"/>
+        android:theme="@style/ThemeOverlay.TodoApp.Green"
+        android:background="@color/todo_green_2E7D32"
+        android:layout_height="match_parent">
 
-    <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/edit_fab"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_margin="@dimen/grid_2"
-        android:src="@drawable/ic_edit"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"/>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical"
-        android:layout_margin="@dimen/grid_2"
-    >
-
-        <TextView
+        <CheckBox
+            android:id="@+id/checkbox_completed"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/no_data"
-            android:textAppearance="?android:attr/textAppearanceLarge"
-            android:visibility="gone" />
-    </LinearLayout>
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintVertical_bias="0"
+            android:checked="@{viewModel.taskDetail.completed}"
+            android:layout_marginStart="@dimen/grid_2"
+            app:layout_constraintBottom_toBottomOf="@id/title_text"
+            app:layout_constraintTop_toTopOf="@id/title_text" />
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+        <TextView
+            android:id="@+id/title_text"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/grid_2"
+            android:textAppearance="?textAppearanceBody1"
+            android:textColor="@color/text_color_secondary"
+            android:text="@{viewModel.taskDetail.title}"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/checkbox_completed"
+            app:layout_constraintTop_toTopOf="parent"
+
+            tools:text="Titulo" />
+
+        <TextView
+            android:id="@+id/desc_text"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textAppearance="?textAppearanceSubtitle1"
+            android:textColor="@color/text_color_tertiary"
+            android:layout_margin="@dimen/grid_2"
+            android:text="@{viewModel.taskDetail.description}"
+            app:layout_constraintTop_toBottomOf="@+id/title_text"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            tools:text="Desctiption" />
+
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/edit_fab"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/grid_2"
+            android:src="@drawable/ic_edit"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            app:show="@{!viewModel.isDataAvailable}"
+            android:layout_margin="@dimen/grid_2">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="More Fonts..."
+                android:text="@string/no_data"
+                android:textAppearance="?android:attr/textAppearanceLarge"
+                android:visibility="gone" />
+        </LinearLayout>
+
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            style="?borderlessButtonStyle"
+            android:text="@string/delete_task"
+            android:layout_marginHorizontal="@dimen/grid_2"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent" />
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

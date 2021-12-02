@@ -1,21 +1,25 @@
 package com.example.todoapp.presentation.task
 
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewModelScope
+import androidx.lifecycle.*
 import com.example.todoapp.data.error.EmptyTasksError
 import com.example.todoapp.data.room.Task
 import com.example.todoapp.data.repository.TaskRepository
 import com.example.todoapp.data.TaskResult
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
+import timber.log.Timber
+import javax.inject.Inject
 
 /**
  * TaskViewModel
  *
  * @author (c) 2021, UVI TECH SAPI De CV, KAVAK
  */
-class TaskViewModel(private val taskRepository: TaskRepository): ViewModel() {
+@HiltViewModel
+class TaskViewModel @Inject constructor(
+    private val taskRepository: TaskRepository,
+    private val savedStateHandle: SavedStateHandle
+    ): ViewModel() {
 
     private val _items: MutableLiveData<List<Task>> = MutableLiveData()
 
@@ -27,10 +31,11 @@ class TaskViewModel(private val taskRepository: TaskRepository): ViewModel() {
         get() = _completedTask
 
 
-
     private val _emptyListError: MutableLiveData<Unit> = MutableLiveData()
     val emptyListError: LiveData<Unit>
         get() = _emptyListError
+
+
 
     init {
         loadTasks(forceUpdate = false)
@@ -44,8 +49,10 @@ class TaskViewModel(private val taskRepository: TaskRepository): ViewModel() {
     }
 
     fun loadTasks(forceUpdate: Boolean) {
+
         viewModelScope.launch {
             val tasksResult = taskRepository.getTasks(forceUpdate)
+
             when (tasksResult) {
                 is  TaskResult.Success -> {
                     _items.value = tasksResult.data!!

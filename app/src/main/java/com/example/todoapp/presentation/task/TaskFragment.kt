@@ -4,29 +4,20 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.LinearLayout
-import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.ViewModelProvider
+import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
-import androidx.recyclerview.widget.RecyclerView
-import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.example.todoapp.R
-import com.example.todoapp.TaskApp
-import com.example.todoapp.myFunction
-import com.example.todoapp.presentation.ViewModelFactory
-import com.example.todoapp.presentation.taskDetail.TaskDetailFragmentDirections
-import com.google.android.material.floatingactionbutton.FloatingActionButton
+import com.example.todoapp.databinding.FragmentTaskBinding
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class TaskFragment : Fragment() {
 
-    private lateinit var taskList: RecyclerView
-    private lateinit var emptyView: LinearLayout
     private lateinit var root: View
-    private lateinit var mSwipeRefreshLayout: SwipeRefreshLayout
-    private lateinit var viewModel: TaskViewModel
+    private val viewModel: TaskViewModel by viewModels()
     private lateinit var adapter: TaskAdapter
-    private lateinit var addFabButton: FloatingActionButton
+    private var taskBinding: FragmentTaskBinding? = null
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -34,17 +25,13 @@ class TaskFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View {
         root = inflater.inflate(R.layout.fragment_task, container, false)
-        taskList = root.findViewById(R.id.tasks_list)
-        emptyView = root.findViewById(R.id.no_tasks_layout)
-        addFabButton = root.findViewById(R.id.add_task_fab)
-        mSwipeRefreshLayout = root.findViewById(R.id.refresh_layout)
-        mSwipeRefreshLayout.setOnRefreshListener {
+        taskBinding = FragmentTaskBinding.bind(root)
+        taskBinding?.refreshLayout?.setOnRefreshListener {
             viewModel.loadTasks(true)
-            mSwipeRefreshLayout.isRefreshing = false
+            taskBinding?.refreshLayout?.isRefreshing = false
         }
+
         initList()
-        val repository = (requireActivity().applicationContext as TaskApp).taskRepository
-        viewModel = ViewModelProvider(this, ViewModelFactory(repository)).get(TaskViewModel::class.java)
         return root
     }
 
@@ -55,12 +42,17 @@ class TaskFragment : Fragment() {
             val action = TaskFragmentDirections.actionTaskToTaskDetail(it)
             findNavController().navigate(action)
         }
-        taskList.adapter = adapter
+        taskBinding?.tasksList?.adapter = adapter
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        taskBinding = null
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        addFabButton.setOnClickListener {
+        taskBinding?.addTaskFab?.setOnClickListener {
             val action = TaskFragmentDirections.actionTaskFragmentToAddTaskFragment(
                 "",
                 getString(R.string.add_task_title)
@@ -79,10 +71,8 @@ class TaskFragment : Fragment() {
 
     private fun subscribeEmptyListError() {
         viewModel.emptyListError.observe(viewLifecycleOwner) {
-            emptyView.visibility = View.VISIBLE
+            taskBinding?.emptyLayout?.noTasksLayout?.visibility = View.VISIBLE
         }
-        myFunction()
     }
-
 
 }

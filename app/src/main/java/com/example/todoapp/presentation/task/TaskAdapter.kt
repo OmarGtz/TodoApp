@@ -1,5 +1,6 @@
 package com.example.todoapp.presentation.task
 
+import android.app.TaskInfo
 import android.service.autofill.OnClickAction
 import android.view.LayoutInflater
 import android.view.View
@@ -11,6 +12,7 @@ import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.example.todoapp.R
 import com.example.todoapp.data.room.Task
+import com.example.todoapp.databinding.TaskItemBinding
 
 /**
  * TaskAdapter

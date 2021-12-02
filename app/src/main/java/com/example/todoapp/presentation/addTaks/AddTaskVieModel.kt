@@ -8,14 +8,17 @@ import androidx.lifecycle.viewModelScope
 import com.example.todoapp.data.TaskResult
 import com.example.todoapp.data.repository.TaskRepository
 import com.example.todoapp.data.room.Task
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
 /**
  * AddTaskVieModel
  *
  * @author (c) 2021, UVI TECH SAPI De CV, KAVAK
  */
-class AddTaskVieModel(private val taskRepository: TaskRepository): ViewModel() {
+@HiltViewModel
+class AddTaskVieModel @Inject constructor(private val taskRepository: TaskRepository): ViewModel() {
 
     private val _addTaskSuccess: MutableLiveData<Unit> = MutableLiveData()
     val addTaskSuccess: LiveData<Unit>

@@ -7,26 +7,25 @@ import android.view.ViewGroup
 import android.widget.EditText
 import android.widget.Toast
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.ViewModelProvider
+import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.example.todoapp.R
-import com.example.todoapp.TaskApp
-import com.example.todoapp.myFunction
-import com.example.todoapp.presentation.ViewModelFactory
 import com.google.android.material.floatingactionbutton.FloatingActionButton
+import dagger.hilt.android.AndroidEntryPoint
 
 /**
  * AddTaskFragment
  *
  * @author (c) 2021, UVI TECH SAPI De CV, KAVAK
  */
+@AndroidEntryPoint
 class AddTaskFragment : Fragment() {
 
     private lateinit var titleEdit: EditText
     private lateinit var desEdit: EditText
     private lateinit var doneFabButton: FloatingActionButton
-    private lateinit var addTaskVieModel: AddTaskVieModel
+    private val addTaskVieModel: AddTaskVieModel by viewModels()
     private val args: AddTaskFragmentArgs by navArgs()
 
     override fun onCreateView(
@@ -38,9 +37,6 @@ class AddTaskFragment : Fragment() {
         titleEdit = view.findViewById(R.id.title_edit_text)
         desEdit = view.findViewById(R.id.descrip_edit_text)
         doneFabButton = view.findViewById(R.id.done_fab)
-        val repository = (activity?.applicationContext as TaskApp).taskRepository
-        addTaskVieModel =
-            ViewModelProvider(this, ViewModelFactory(repository)).get(AddTaskVieModel::class.java)
         addTaskVieModel.onStart(args.taskId)
         return view
     }

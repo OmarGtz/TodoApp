@@ -8,6 +8,7 @@
 
     <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
         android:id="@+id/refresh_layout"
+
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
@@ -44,30 +45,7 @@
 
             </LinearLayout>
 
-            <LinearLayout
-                android:id="@+id/no_tasks_layout"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerInParent="true"
-                android:visibility="gone"
-                android:orientation="vertical">
 
-                <ImageView
-                    android:id="@+id/no_tasks_icon"
-                    android:layout_width="96dp"
-                    android:layout_height="96dp"
-                    android:layout_gravity="center"
-                    android:src="@drawable/logo_no_fill"
-                    tools:ignore="ContentDescription" />
-
-                <TextView
-                    android:id="@+id/no_tasks_text"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:text="@string/empty_tasks_error"
-                    android:layout_marginBottom="@dimen/grid_2_5" />
-            </LinearLayout>
         </RelativeLayout>
 
     </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
@@ -82,4 +60,40 @@
         app:layout_anchor="@id/refresh_layout"
         app:layout_anchorGravity="bottom|right|end"
         tools:ignore="ContentDescription" />
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/filter_button"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Filtros"
+        android:layout_gravity="bottom"
+        />
+
+    <com.google.android.material.button.MaterialButton
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        style="?materialButtonOutlinedStyle"
+        android:text="Button"/>
+
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        style="?materialButtonOutlinedStyle"
+        android:text="Button legay"/>
+
+    <com.google.android.material.imageview.ShapeableImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:srcCompat="@drawable/ic_launcher_background"
+        app:shapeAppearanceOverlay="@style/ShapeAppearanceOverlay.TodoApp.Image.Circular"
+        />
+
+    <include
+        android:id="@+id/empty_layout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        layout="@layout/tasks_empty_layou"/>
+
+
+
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

@@ -1,17 +1,20 @@
 package com.example.todoapp
 
 import android.app.Application
-import com.example.todoapp.data.repository.TaskRepository
-import com.example.todoapp.di.ServiceLocator
+import dagger.hilt.android.HiltAndroidApp
+import timber.log.Timber
 
 /**
  * TaskApp
  *
  * @author (c) 2021, UVI TECH SAPI De CV, KAVAK
  */
+@HiltAndroidApp
 class TaskApp: Application() {
 
-    val taskRepository: TaskRepository
-    get() = ServiceLocator.provideTaskRepository(this)
+    override fun onCreate() {
+        super.onCreate()
+        if (BuildConfig.DEBUG) Timber.plant(Timber.DebugTree())
+    }
 
 }
