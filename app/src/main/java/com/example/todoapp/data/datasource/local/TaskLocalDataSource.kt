@@ -1,5 +1,7 @@
 package com.example.todoapp.data.datasource.local
 
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.map
 import com.example.todoapp.data.*
 import com.example.todoapp.data.datasource.TaskDataSource
 import com.example.todoapp.data.error.EmptyTasksError
@@ -76,5 +78,11 @@ class TaskLocalDataSource(private val taskDao: TaskDao, val ioDispatcher: Corout
 
     override suspend fun deleteTask(taskId: String) = withContext(ioDispatcher) {
         taskDao.deleteTask(taskId)
+    }
+
+    override fun observeTasks(): LiveData<TaskResult<List<Task>>> {
+        return taskDao.observeTasks().map {
+            TaskResult.Success(it)
+        }
     }
 }

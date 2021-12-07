@@ -21,24 +21,45 @@ class TaskViewModel @Inject constructor(
     private val savedStateHandle: SavedStateHandle
     ): ViewModel() {
 
-    private val _items: MutableLiveData<List<Task>> = MutableLiveData()
+    private val _forceUpdate = MutableLiveData(false)
+
+    private val _items: LiveData<List<Task>> = _forceUpdate.switchMap { forceUpdate ->
+        if (forceUpdate) {
+            viewModelScope.launch {
+                taskRepository.getTasks(true)
+            }
+        }
+        taskRepository.observeTasks().distinctUntilChanged().switchMap {
+            handleResult(it)
+        }
+    }
 
     val items: LiveData<List<Task>>
     get() = _items
 
     private val _completedTask: MutableLiveData<Boolean> = MutableLiveData()
+
     val completedTask: LiveData<Boolean>
         get() = _completedTask
-
 
     private val _emptyListError: MutableLiveData<Unit> = MutableLiveData()
     val emptyListError: LiveData<Unit>
         get() = _emptyListError
 
-
-
     init {
         loadTasks(forceUpdate = false)
+    }
+
+    fun handleResult(taskResult: TaskResult<List<Task>>): LiveData<List<Task>> {
+        val result: MutableLiveData<List<Task>> = MutableLiveData()
+
+        if (taskResult is TaskResult.Success)  {
+            result.value = taskResult.data
+        } else if (taskResult is TaskResult.Error) {
+            _emptyListError.value = Unit
+            result.value = emptyList()
+        }
+        return result
     }
 
     fun completedTask(taskId: String, completed: Boolean) {
@@ -49,24 +70,7 @@ class TaskViewModel @Inject constructor(
     }
 
     fun loadTasks(forceUpdate: Boolean) {
-
-        viewModelScope.launch {
-            val tasksResult = taskRepository.getTasks(forceUpdate)
-
-            when (tasksResult) {
-                is  TaskResult.Success -> {
-                    _items.value = tasksResult.data!!
-                }
-                is TaskResult.Error -> {
-                    if (tasksResult.exception is EmptyTasksError) {
-                        _emptyListError.value = Unit
-                    }
-                }
-                is TaskResult.Loading -> {
-
-                }
-            }
-        }
+        _forceUpdate.value = forceUpdate
     }
 
 }

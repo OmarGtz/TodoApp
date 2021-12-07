@@ -1,5 +1,6 @@
 package com.example.todoapp.data.repository
 
+import androidx.lifecycle.LiveData
 import com.example.todoapp.data.room.Task
 import com.example.todoapp.data.datasource.TaskDataSource
 import com.example.todoapp.data.TaskResult
@@ -55,6 +56,10 @@ class TaskRepositoryImp(private val taskRemoteDataSource: TaskDataSource, privat
             launch { taskRemoteDataSource.deleteTask(tasId) }
             launch { taskLocalDataSource.deleteTask(tasId) }
         }
+    }
+
+    override fun observeTasks(): LiveData<TaskResult<List<Task>>> {
+           return taskLocalDataSource.observeTasks()
     }
 
     private suspend fun updateTasksFromRemoteDataSource() {

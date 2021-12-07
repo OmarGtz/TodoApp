@@ -1,5 +1,6 @@
 package com.example.todoapp.data.datasource.remote
 
+import androidx.lifecycle.LiveData
 import com.example.todoapp.data.room.Task
 import com.example.todoapp.data.datasource.TaskDataSource
 import com.example.todoapp.data.TaskResult
@@ -63,6 +64,10 @@ object TaskRemoteDataSource: TaskDataSource {
 
     override suspend fun deleteTask(taskId: String) {
         TASK_SERVICE_DATA.remove(taskId)
+    }
+
+    override fun observeTasks(): LiveData<TaskResult<List<Task>>> {
+        TODO("Not yet implemented")
     }
 
 }

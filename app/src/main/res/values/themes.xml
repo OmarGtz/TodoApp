@@ -12,6 +12,8 @@
         <item name="textAppearanceButton">@style/TextAppearance.TodoApp.Button</item>
         <item name="textAppearanceHeadline6">@style/TextAppearance.TodoApp.Headline6</item>
         <item name="textAppearanceBody1">@style/TextAppearance.TodoApp.Body1</item>
+        <item name="textAppearanceCaption">@style/TextAppearance.TodoApp.Caption</item>
+        <item name="textAppearanceSubtitle1">@style/TextAppearance.TodoApp.Subtitle1</item>
 
         <!-- Shape System -->
         <item name="shapeAppearanceSmallComponent">@style/ShapeAppearance.TodoApp.SmallComponents</item>

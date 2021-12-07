@@ -8,4 +8,6 @@
     <string name="add_task_title">Agregar tarea</string>
     <string name="no_data">no data</string>
     <string name="delete_task">Delete task</string>
+    <string name="subtitle_task">Pendientes</string>
+    <string name="subtitle_complete_tasks">Completadas</string>
 </resources>

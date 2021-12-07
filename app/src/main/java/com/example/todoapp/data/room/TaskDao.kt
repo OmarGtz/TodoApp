@@ -1,5 +1,6 @@
 package com.example.todoapp.data.room
 
+import androidx.lifecycle.LiveData
 import androidx.room.*
 
 /**
@@ -15,6 +16,9 @@ interface TaskDao {
 
     @Query("select * from tasks where entryid = :taskId")
     suspend fun getTask(taskId: String): Task
+
+    @Query("select * from Tasks")
+    fun observeTasks(): LiveData<List<Task>>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun saveTask(task: Task)

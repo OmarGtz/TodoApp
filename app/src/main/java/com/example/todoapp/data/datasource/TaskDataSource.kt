@@ -1,5 +1,6 @@
 package com.example.todoapp.data.datasource
 
+import androidx.lifecycle.LiveData
 import com.example.todoapp.data.room.Task
 import com.example.todoapp.data.TaskResult
 
@@ -17,4 +18,5 @@ interface TaskDataSource {
     suspend fun completedTask(taskId: String, completed: Boolean)
     suspend fun deleteCompleteTasks(): TaskResult<Int>
     suspend fun deleteTask(taskId: String)
+    fun observeTasks(): LiveData<TaskResult<List<Task>>>
 }

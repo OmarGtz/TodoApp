@@ -1,5 +1,6 @@
 package com.example.todoapp.data.repository
 
+import androidx.lifecycle.LiveData
 import com.example.todoapp.data.room.Task
 import com.example.todoapp.data.TaskResult
 
@@ -19,4 +20,6 @@ interface TaskRepository {
     suspend fun clearCompleteTask()
 
     suspend fun deleteTask(tasId: String)
+    fun observeTasks(): LiveData<TaskResult<List<Task>>>
+
 }

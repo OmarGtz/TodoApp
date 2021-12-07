@@ -26,22 +26,12 @@
                 android:layout_height="match_parent"
                 android:orientation="vertical">
 
-                <TextView
-                    android:id="@+id/filtering_text"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="@dimen/grid_2"
-                    android:layout_marginTop="@dimen/grid_2_5"
-                    android:layout_marginRight="@dimen/grid_2"
-                    android:layout_marginBottom="@dimen/grid_2_5"
-                    android:gravity="center_vertical"
-                    android:textAppearance="?textAppearanceBody1" />
-
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/tasks_list"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager" />
+                    app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                    />
 
             </LinearLayout>
 
@@ -50,49 +40,16 @@
 
     </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 
-    <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/add_task_fab"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_margin="@dimen/grid_2"
-        android:src="@drawable/ic_add"
-        app:fabSize="normal"
-        app:layout_anchor="@id/refresh_layout"
-        app:layout_anchorGravity="bottom|right|end"
-        tools:ignore="ContentDescription" />
 
-    <com.google.android.material.button.MaterialButton
-        android:id="@+id/filter_button"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Filtros"
-        android:layout_gravity="bottom"
-        />
 
-    <com.google.android.material.button.MaterialButton
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        style="?materialButtonOutlinedStyle"
-        android:text="Button"/>
-
-    <Button
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        style="?materialButtonOutlinedStyle"
-        android:text="Button legay"/>
-
-    <com.google.android.material.imageview.ShapeableImageView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:srcCompat="@drawable/ic_launcher_background"
-        app:shapeAppearanceOverlay="@style/ShapeAppearanceOverlay.TodoApp.Image.Circular"
-        />
 
     <include
         android:id="@+id/empty_layout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         layout="@layout/tasks_empty_layou"/>
+
+
 
 
 
