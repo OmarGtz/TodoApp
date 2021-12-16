@@ -12,8 +12,6 @@
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:theme="@style/ThemeOverlay.TodoApp.Green"
-        android:background="@color/todo_green_2E7D32"
         android:layout_height="match_parent">
 
         <CheckBox
@@ -53,6 +51,38 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             tools:text="Desctiption" />
+
+        <com.example.todoapp.widget.PrefixTextView
+            android:id="@+id/prefix_location"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toBottomOf="@+id/desc_text"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:prefixText="Ubicación"
+            app:prefixContent="Mi casa"
+            app:prefixIcon="@drawable/ic_edit"
+            app:prefixContentTextColor="?colorPrimary"
+            app:prefixContentTextAppearance="?textAppearanceSubtitle1"
+            />
+
+        <com.example.todoapp.widget.PrefixTextView
+            android:id="@+id/prefix_time"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toBottomOf="@+id/prefix_location"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:showDivider="false"
+            app:prefixText="Hora"
+            app:prefixContent="10:30 pm"
+            app:prefixIcon="@drawable/ic_done"
+            app:prefixContentTextColor="?android:textColorPrimary"
+            app:prefixContentTextAppearance="?textAppearanceSubtitle1"
+            />
+
+
+
 
         <com.google.android.material.floatingactionbutton.FloatingActionButton
             android:id="@+id/edit_fab"

@@ -13,6 +13,7 @@ import androidx.navigation.fragment.navArgs
 import com.example.todoapp.R
 import com.example.todoapp.TaskApp
 import com.example.todoapp.databinding.FragmentTaskDetailBinding
+import com.google.android.material.snackbar.Snackbar
 import dagger.hilt.android.AndroidEntryPoint
 
 
@@ -38,6 +39,10 @@ class TaskDetailFragment : Fragment() {
         detailBinding.viewModel = detailViewModel
         detailBinding.lifecycleOwner = viewLifecycleOwner
         detailViewModel.onStart(args.taskId)
+        detailBinding.prefixLocation.addActionClickListener {
+            Snackbar.make(detailBinding.root, "Click my custom component $it", Snackbar.LENGTH_SHORT).show()
+        }
+
         return view
     }
 

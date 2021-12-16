@@ -35,11 +35,9 @@ class TaskFragment : Fragment() {
             viewModel.loadTasks(true)
             taskBinding?.refreshLayout?.isRefreshing = false
         }
-
         initList()
         return root
     }
-
 
     private fun initList() {
         val action: (String) -> Unit = {

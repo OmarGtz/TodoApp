@@ -1,12 +1,9 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
     <!-- Base application theme. -->
     <style name="Theme.TodoApp" parent="Theme.MaterialComponents.DayNight.NoActionBar">
-        
-        
         <!-- Components -->
         <item name="materialButtonStyle">@style/Widget.TodoApp.button</item>
         <item name="materialButtonOutlinedStyle">@style/Widget.TodoApp.button.Outlined</item>
-
 
         <!-- Type system -->
         <item name="textAppearanceButton">@style/TextAppearance.TodoApp.Button</item>
@@ -14,6 +11,7 @@
         <item name="textAppearanceBody1">@style/TextAppearance.TodoApp.Body1</item>
         <item name="textAppearanceCaption">@style/TextAppearance.TodoApp.Caption</item>
         <item name="textAppearanceSubtitle1">@style/TextAppearance.TodoApp.Subtitle1</item>
+        <item name="textAppearanceSubtitle2">@style/TextAppearance.TodoApp.Subtitle2</item>
 
         <!-- Shape System -->
         <item name="shapeAppearanceSmallComponent">@style/ShapeAppearance.TodoApp.SmallComponents</item>
@@ -36,11 +34,22 @@
         <item name="android:textColorTertiary">@color/todo_black_40</item>
         <item name="colorWarning">@color/todo_yellow</item>
 
+        <!-- color control components -->
+        <item name="colorControlNormal">@color/todo_gray_c7c7c7</item>
+        <item name="colorControlActivated">@color/todo_green_2E7D32</item>
+
         <!-- Status bar color. -->
-        <item name="android:statusBarColor" tools:targetApi="l">@color/todo_green_2E7D32</item>
+        <item name="android:statusBarColor" tools:targetApi="l">?android:colorBackground</item>
+        <item name="android:windowLightStatusBar">true</item>
         <item name="android:windowLightNavigationBar" tools:targetApi="o_mr1">true</item>
+
         <item name="android:navigationBarColor">@color/todo_white_fff</item>
-        <!-- Customize your theme here. -->
+        <!-- Components styles by default -->
+        <item name="checkboxStyle">@style/Widget.TodoApp.Checkbox</item>
+        <item name="materialCardViewStyle">@style/Widget.TodoApp.CardView</item>
+        <item name="appBarLayoutStyle">@style/Widget.TodoApp.AppBar</item>
+        <item name="toolbarStyle">@style/Widget.TodoApp.Toolbar</item>
+        <item name="prefixTextViewStyle"></item>
     </style>
 
     <style name="ThemeOverlay.TodoApp.Green" parent="">

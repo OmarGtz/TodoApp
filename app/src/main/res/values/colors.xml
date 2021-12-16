@@ -6,5 +6,6 @@
     <color name="todo_black_70">#B3000000</color>
     <color name="todo_black_40">#66000000</color>
     <color name="todo_gray_FBFBFB">#FBFBFB</color>
+    <color name="todo_gray_c7c7c7">#c7c7c7</color>
     <color name="todo_yellow">#FFEB3B</color>
 </resources>

@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<merge xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    tools:parentTag="androidx.constraintlayout.widget.ConstraintLayout">
+    <ImageView
+        android:id="@+id/prefix_icon"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:src="@drawable/ic_edit"
+        android:layout_marginStart="@dimen/grid_2"
+        android:layout_marginVertical="@dimen/grid_2"
+        app:layout_constraintBottom_toBottomOf="parent"
+        tools:ignore="ContentDescription" />
+
+    <TextView
+        android:id="@+id/prefix_text"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toEndOf="@+id/prefix_icon"
+        android:layout_marginStart="@dimen/grid_1"
+        android:textAppearance="?textAppearanceBody1"
+        android:textColor="?android:textColorPrimary"
+        android:layout_marginEnd="@dimen/grid_2"
+        app:layout_constraintTop_toTopOf="@+id/prefix_icon"
+        app:layout_constraintBottom_toBottomOf="@id/prefix_icon"
+        app:layout_constraintEnd_toStartOf="@+id/value_text"
+        tools:text="Prefix"/>
+    <TextView
+        android:id="@+id/value_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toTopOf="@id/prefix_icon"
+        app:layout_constraintBottom_toBottomOf="@id/prefix_icon"
+        android:layout_marginEnd="@dimen/grid_2"
+        app:layout_constraintStart_toEndOf="@id/prefix_text"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1"
+        tools:text="value"/>
+    <View
+        android:id="@+id/divider"
+        android:layout_width="0dp"
+        android:layout_height="1dp"
+        android:background="?colorControlNormal"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="@id/value_text"
+        app:layout_constraintStart_toStartOf="@id/prefix_icon"/>
+</merge>

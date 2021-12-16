@@ -3,5 +3,16 @@
 
     <attr name="colorWarning" format="color"/>
     <attr name="colorSuccess" format="color"/>
+    
+    <declare-styleable name="PrefixTextView">
+        <attr name="prefixIcon" format="reference" />
+        <attr name="prefixText" format="string" />
+        <attr name="prefixContent" format="string" />
+        <attr name="prefixContentTextAppearance" format="reference" />
+        <attr name="prefixContentTextColor" format="color" />
+        <attr name="showDivider" format="boolean" />
+    </declare-styleable>
+
+    <attr name="prefixTextViewStyle" format="reference" />
 
 </resources>

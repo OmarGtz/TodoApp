@@ -6,5 +6,5 @@
     android:layout_height="wrap_content"
     android:paddingHorizontal="@dimen/grid_2"
     android:paddingVertical="@dimen/grid_2"
-    android:textAppearance="?textAppearanceHeadline6"
+    android:textAppearance="?textAppearanceSubtitle1"
     tools:text="Subtitulo" />
