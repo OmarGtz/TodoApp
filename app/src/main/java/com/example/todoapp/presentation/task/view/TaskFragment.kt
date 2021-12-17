@@ -1,4 +1,4 @@
-package com.example.todoapp.presentation.task
+package com.example.todoapp.presentation.task.view
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -10,6 +10,7 @@ import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.ConcatAdapter
 import com.example.todoapp.R
 import com.example.todoapp.databinding.FragmentTaskBinding
+import com.example.todoapp.presentation.task.viewmodel.TaskViewModel
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -79,12 +80,10 @@ class TaskFragment : Fragment() {
 
     private fun subscribeTasksList() {
         viewModel.items.observe(viewLifecycleOwner) {
-            val tasks = it.filter { !it.completed }
-            val completedTask = it.filter { it.completed }
-            subtitleTaskAdapter.show = tasks.isNotEmpty()
-            subtitleCompletedTaskAdapter.show = completedTask.isNotEmpty()
-            taskAdapter.submitList(tasks)
-            completedTaskAdapter.submitList(completedTask)
+            subtitleTaskAdapter.show = it.activeIsNotEmpty
+            subtitleCompletedTaskAdapter.show = it.completedIsNotEmpty
+            taskAdapter.submitList(it.activeTasks)
+            completedTaskAdapter.submitList(it.completedTasks)
         }
     }
 

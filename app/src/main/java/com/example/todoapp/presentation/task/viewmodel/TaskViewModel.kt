@@ -1,10 +1,14 @@
-package com.example.todoapp.presentation.task
+package com.example.todoapp.presentation.task.viewmodel
 
 import androidx.lifecycle.*
 import com.example.todoapp.data.error.EmptyTasksError
 import com.example.todoapp.data.room.Task
 import com.example.todoapp.data.repository.TaskRepository
 import com.example.todoapp.data.TaskResult
+import com.example.todoapp.data.mapper.TaskMapper
+import com.example.todoapp.domain.GetTasksUseCase
+import com.example.todoapp.domain.TaskDomain
+import com.example.todoapp.presentation.task.model.TasksView
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import timber.log.Timber
@@ -17,25 +21,16 @@ import javax.inject.Inject
  */
 @HiltViewModel
 class TaskViewModel @Inject constructor(
-    private val taskRepository: TaskRepository,
+    private val getTasksUseCase: GetTasksUseCase,
     private val savedStateHandle: SavedStateHandle
     ): ViewModel() {
 
     private val _forceUpdate = MutableLiveData(false)
 
-    private val _items: LiveData<List<Task>> = _forceUpdate.switchMap { forceUpdate ->
-        if (forceUpdate) {
-            viewModelScope.launch {
-                taskRepository.getTasks(true)
-            }
-        }
-        taskRepository.observeTasks().distinctUntilChanged().switchMap {
-            handleResult(it)
-        }
-    }
+    private val _items: MutableLiveData<List<TaskDomain>> = MutableLiveData()
 
-    val items: LiveData<List<Task>>
-    get() = _items
+    val items: LiveData<TasksView>
+    get() = _items.map { TaskMapper.toPresentation(it) }
 
     private val _completedTask: MutableLiveData<Boolean> = MutableLiveData()
 
@@ -64,13 +59,18 @@ class TaskViewModel @Inject constructor(
 
     fun completedTask(taskId: String, completed: Boolean) {
         viewModelScope.launch {
-            taskRepository.completedTask(taskId, completed)
+//            taskRepository.completedTask(taskId, completed)
             _completedTask.value = true
         }
     }
 
     fun loadTasks(forceUpdate: Boolean) {
-        _forceUpdate.value = forceUpdate
+        viewModelScope.launch {
+            val tasks = getTasksUseCase(forceUpdate)
+            if (tasks is TaskResult.Success) {
+                _items.value = tasks.data!!
+            }
+        }
     }
 
 }

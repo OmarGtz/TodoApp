@@ -4,6 +4,8 @@ import androidx.lifecycle.LiveData
 import com.example.todoapp.data.room.Task
 import com.example.todoapp.data.datasource.TaskDataSource
 import com.example.todoapp.data.TaskResult
+import com.example.todoapp.data.mapper.TaskMapper
+import com.example.todoapp.domain.TaskDomain
 import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.launch
 
@@ -15,7 +17,7 @@ import kotlinx.coroutines.launch
 class TaskRepositoryImp(private val taskRemoteDataSource: TaskDataSource, private val taskLocalDataSource: TaskDataSource):
     TaskRepository {
 
-    override suspend fun getTasks(forceUpdate: Boolean): TaskResult<List<Task>> {
+    override suspend fun getTasks(forceUpdate: Boolean): TaskResult<List<TaskDomain>> {
         if (forceUpdate) {
             try {
                 updateTasksFromRemoteDataSource()
@@ -23,7 +25,13 @@ class TaskRepositoryImp(private val taskRemoteDataSource: TaskDataSource, privat
                 return TaskResult.Error(ex)
             }
         }
-        return taskLocalDataSource.getTasks()
+        val result = taskLocalDataSource.getTasks()
+        if (result is TaskResult.Success) {
+            val data = result.data.map { TaskMapper.toDomain(it) }
+            return TaskResult.Success(data)
+        } else {
+            return TaskResult.Error(NotImplementedError())
+        }
     }
 
     override suspend fun saveTask(task: Task) {
