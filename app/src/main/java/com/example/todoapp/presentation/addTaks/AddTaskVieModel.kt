@@ -5,7 +5,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.todoapp.data.TaskResult
+import com.example.todoapp.core.TaskResult
 import com.example.todoapp.data.repository.TaskRepository
 import com.example.todoapp.data.room.Task
 import dagger.hilt.android.lifecycle.HiltViewModel

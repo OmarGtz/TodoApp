@@ -1,17 +1,16 @@
 package com.example.todoapp.presentation.task.viewmodel
 
 import androidx.lifecycle.*
-import com.example.todoapp.data.error.EmptyTasksError
+import com.example.todoapp.core.TaskResult
 import com.example.todoapp.data.room.Task
-import com.example.todoapp.data.repository.TaskRepository
-import com.example.todoapp.data.TaskResult
-import com.example.todoapp.data.mapper.TaskMapper
-import com.example.todoapp.domain.GetTasksUseCase
-import com.example.todoapp.domain.TaskDomain
+import com.example.todoapp.domain.mapper.toPresentation
+import com.example.todoapp.domain.model.TaskDomain
+import com.example.todoapp.domain.usecase.CompleteTaskParams
+import com.example.todoapp.domain.usecase.CompleteTaskUseCase
+import com.example.todoapp.domain.usecase.GetTasksUseCase
 import com.example.todoapp.presentation.task.model.TasksView
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
-import timber.log.Timber
 import javax.inject.Inject
 
 /**
@@ -22,15 +21,15 @@ import javax.inject.Inject
 @HiltViewModel
 class TaskViewModel @Inject constructor(
     private val getTasksUseCase: GetTasksUseCase,
-    private val savedStateHandle: SavedStateHandle
-    ): ViewModel() {
+    private val completedTaskUseCase: CompleteTaskUseCase
+) : ViewModel() {
 
     private val _forceUpdate = MutableLiveData(false)
 
     private val _items: MutableLiveData<List<TaskDomain>> = MutableLiveData()
 
     val items: LiveData<TasksView>
-    get() = _items.map { TaskMapper.toPresentation(it) }
+        get() = _items.map { it.toPresentation() }
 
     private val _completedTask: MutableLiveData<Boolean> = MutableLiveData()
 
@@ -48,7 +47,7 @@ class TaskViewModel @Inject constructor(
     fun handleResult(taskResult: TaskResult<List<Task>>): LiveData<List<Task>> {
         val result: MutableLiveData<List<Task>> = MutableLiveData()
 
-        if (taskResult is TaskResult.Success)  {
+        if (taskResult is TaskResult.Success) {
             result.value = taskResult.data
         } else if (taskResult is TaskResult.Error) {
             _emptyListError.value = Unit
@@ -59,7 +58,7 @@ class TaskViewModel @Inject constructor(
 
     fun completedTask(taskId: String, completed: Boolean) {
         viewModelScope.launch {
-//            taskRepository.completedTask(taskId, completed)
+            completedTaskUseCase(CompleteTaskParams(taskId, completed))
             _completedTask.value = true
         }
     }

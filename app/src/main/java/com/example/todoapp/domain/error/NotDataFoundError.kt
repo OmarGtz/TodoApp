@@ -1,4 +1,4 @@
-package com.example.todoapp.data.error
+package com.example.todoapp.domain.error
 
 import java.lang.Exception
 

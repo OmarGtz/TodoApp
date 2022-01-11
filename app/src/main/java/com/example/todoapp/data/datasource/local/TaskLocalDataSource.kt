@@ -2,10 +2,10 @@ package com.example.todoapp.data.datasource.local
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.map
+import com.example.todoapp.core.TaskResult
 import com.example.todoapp.data.*
 import com.example.todoapp.data.datasource.TaskDataSource
-import com.example.todoapp.data.error.EmptyTasksError
-import com.example.todoapp.data.error.NotDataFoundError
+import com.example.todoapp.domain.error.NotDataFoundError
 import com.example.todoapp.data.room.Task
 import com.example.todoapp.data.room.TaskDao
 import kotlinx.coroutines.CoroutineDispatcher
@@ -21,18 +21,7 @@ import java.lang.Exception
 class TaskLocalDataSource(private val taskDao: TaskDao, val ioDispatcher: CoroutineDispatcher = Dispatchers.IO):
     TaskDataSource {
 
-    override suspend fun getTasks(): TaskResult<List<Task>> =
-        withContext(ioDispatcher) {
-            return@withContext try {
-                val tasks = taskDao.getTasks()
-                if (tasks.isEmpty()) {
-                    throw EmptyTasksError()
-                }
-                TaskResult.Success(tasks)
-            } catch (e: Exception) {
-                TaskResult.Error(e)
-            }
-        }
+    override suspend fun getTasks(): List<Task> = taskDao.getTasks()
 
     override suspend fun saveTask(task: Task): Unit = withContext(ioDispatcher) {
         taskDao.saveTask(task)
@@ -67,7 +56,7 @@ class TaskLocalDataSource(private val taskDao: TaskDao, val ioDispatcher: Corout
             TaskResult.Error(e)
         }
     }
-    override suspend fun completedTask(taskId: String, completed: Boolean) = withContext(ioDispatcher) {
+    override suspend fun completedTask(taskId: String, completed: Boolean) {
         taskDao.updateCompleted(taskId, completed)
     }
 

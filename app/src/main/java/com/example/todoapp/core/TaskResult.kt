@@ -1,6 +1,4 @@
-package com.example.todoapp.data
-
-import java.lang.Exception
+package com.example.todoapp.core
 
 /**
  * TaskResult

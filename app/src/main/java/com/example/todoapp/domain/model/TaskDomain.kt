@@ -1,4 +1,4 @@
-package com.example.todoapp.domain
+package com.example.todoapp.domain.model
 
 /**
  * TaskDomain

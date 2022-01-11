@@ -2,8 +2,8 @@ package com.example.todoapp.presentation.taskDetail
 
 import androidx.lifecycle.*
 import com.example.todoapp.R
-import com.example.todoapp.data.TaskResult
-import com.example.todoapp.data.error.NotDataFoundError
+import com.example.todoapp.core.TaskResult
+import com.example.todoapp.domain.error.NotDataFoundError
 import com.example.todoapp.data.repository.TaskRepository
 import com.example.todoapp.data.room.Task
 import dagger.hilt.android.lifecycle.HiltViewModel

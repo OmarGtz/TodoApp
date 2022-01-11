@@ -3,8 +3,7 @@ package com.example.todoapp.data.datasource.remote
 import androidx.lifecycle.LiveData
 import com.example.todoapp.data.room.Task
 import com.example.todoapp.data.datasource.TaskDataSource
-import com.example.todoapp.data.TaskResult
-import kotlinx.coroutines.delay
+import com.example.todoapp.core.TaskResult
 
 /**
  * TaskRemoteDataSource
@@ -26,8 +25,8 @@ object TaskRemoteDataSource: TaskDataSource {
         }
     }
 
-    override suspend fun getTasks(): TaskResult<List<Task>> {
-        return TaskResult.Success(TASK_SERVICE_DATA.values.toList())
+    override suspend fun getTasks(): List<Task> {
+        return TASK_SERVICE_DATA.values.toList()
     }
 
     override suspend fun saveTask(task: Task) {
